@@ -120,13 +120,6 @@ After training completes, you will obtain a model weight file
 python eval_kit/evaluate_models.py results/VAR_Reasoner_Student_2025_09_21_11_44_29/model_best_greedy_pred_test.json
 ```
 
-**Example output**
-
-```
-[Separate Observed]   METEOR 25.30  Bleu@4 4.16  CIDEr 33.04  ROUGE_L 23.55  BERT_S 28.92
-[Separate Hypothesis] METEOR 24.14  Bleu@4 4.57  CIDEr 34.07  ROUGE_L 23.54  BERT_S 29.83
-```
-
 ---
 
 ## Output File Reference
