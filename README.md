@@ -13,6 +13,10 @@ The teacher produces soft labels (logit distributions) that are cached to disk, 
 the student is then trained under the supervision of both the ground-truth (hard)
 labels and the teacher's soft labels.
 
+## Data Preparation
+
+The whole model is based on VAR Dataset. Please refer to his data processing on https://github.com/leonnnop/VAR before training.
+
 ---
 
 ## Table of Contents
@@ -130,13 +134,13 @@ python eval_kit/evaluate_models.py results/VAR_Reasoner_Student_2025_09_21_11_44
 During training and evaluation, several prediction and metric files are produced.
 Their meanings are as follows:
 
-| File | Meaning | Description |
-|------|---------|-------------|
-| `model_tmp_greedy_pred_test_0.json` | **Temporary prediction file** | Prediction results from a **single GPU process** (`_0` = rank 0). Each entry corresponds to one test sample and contains the generated sentence (`sentence`), the ground-truth (`gt_sentence`), etc. In multi-GPU training every process writes one such file (`_0.json`, `_1.json`, …); useful for debugging a single process's output. |
-| `model_tmp_greedy_pred_test.json` | **Merged temporary prediction file** | The main process merges all per-GPU temporary files into this one. In single-GPU training it is essentially a copy of `_0.json`. This complete-test-set file is the **input to the evaluation script**. |
-| `model_tmp_greedy_pred_test_all_metrics.json` | **Temporary metrics file** | All metric scores (BLEU, METEOR, CIDEr, …) computed from the merged temporary prediction file. Records the results of a **non-best** model (i.e. the model at the end of an epoch, which is not necessarily the highest-CIDEr checkpoint). |
-| `model_best_greedy_pred_test.json` | **Best model's prediction file** | When an epoch's CIDEr score **exceeds** all previous epochs, the current weights are saved (`*.chkpt`) and the temporary prediction file is **renamed** to `*_best_*_test.json`. Stores the actual outputs of the best-performing model on the test set — useful for qualitative analysis and case studies. |
-| `model_best_greedy_pred_test_all_metrics.json` | **Best model's metrics file** | **The key result file.** Records the metric scores corresponding to the best model's predictions. The **final performance** of your model for this run is reported here — compare its metrics (especially CIDEr) against the original paper and baselines. |
+| File                                           | Meaning                              | Description                                                  |
+| ---------------------------------------------- | ------------------------------------ | ------------------------------------------------------------ |
+| `model_tmp_greedy_pred_test_0.json`            | **Temporary prediction file**        | Prediction results from a **single GPU process** (`_0` = rank 0). Each entry corresponds to one test sample and contains the generated sentence (`sentence`), the ground-truth (`gt_sentence`), etc. In multi-GPU training every process writes one such file (`_0.json`, `_1.json`, …); useful for debugging a single process's output. |
+| `model_tmp_greedy_pred_test.json`              | **Merged temporary prediction file** | The main process merges all per-GPU temporary files into this one. In single-GPU training it is essentially a copy of `_0.json`. This complete-test-set file is the **input to the evaluation script**. |
+| `model_tmp_greedy_pred_test_all_metrics.json`  | **Temporary metrics file**           | All metric scores (BLEU, METEOR, CIDEr, …) computed from the merged temporary prediction file. Records the results of a **non-best** model (i.e. the model at the end of an epoch, which is not necessarily the highest-CIDEr checkpoint). |
+| `model_best_greedy_pred_test.json`             | **Best model's prediction file**     | When an epoch's CIDEr score **exceeds** all previous epochs, the current weights are saved (`*.chkpt`) and the temporary prediction file is **renamed** to `*_best_*_test.json`. Stores the actual outputs of the best-performing model on the test set — useful for qualitative analysis and case studies. |
+| `model_best_greedy_pred_test_all_metrics.json` | **Best model's metrics file**        | **The key result file.** Records the metric scores corresponding to the best model's predictions. The **final performance** of your model for this run is reported here — compare its metrics (especially CIDEr) against the original paper and baselines. |
 
 ---
 
